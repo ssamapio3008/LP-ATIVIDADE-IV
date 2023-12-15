@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+struct Funcionario {
+    char nome[50];
+    char cargo[50];
+    float salario;
+};
+
+float calcularMediaSalarial(struct Funcionario funcionarios[], int numFuncionarios, char cargo[]) {
+    float totalSalarios = 0;
+    int contador = 0;
+
+    for (int i = 0; i < numFuncionarios; i++) {
+        if (strcmp(funcionarios[i].cargo, cargo) == 0) {
+            totalSalarios += funcionarios[i].salario;
+            contador++;
+        }
+    }
+
+    if (contador > 0) {
+        return totalSalarios / contador;
+    } else {
+        return 0;
+    }
+}
+
+int main() {
+    struct Funcionario funcionarios[5];
+    int numFuncionarios = 5;
+    char cargoBuscado[50] = "Programador";
+
+    float mediaSalarial = calcularMediaSalarial(funcionarios, numFuncionarios, cargoBuscado);
+
+    printf("A media salarial dos programadores na empresa e: %.2f\n", mediaSalarial);
+
+    return 0;
+}
