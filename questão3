@@ -1,111 +1,85 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <locale.h>
-#include <string.h>
 
-struct dados_produto {
-    char nome[200];
+#include <stdio.h>
+
+struct Produto {
+    char nome[50];
     float preco;
-    int estoque;
+    int quantidade;
 };
 
-void atualizarEstoque(int estoque, float preco, int quantidadeProduto) {
-    int estoqueAtualizado;
-    float precoAtualizado;
 
-    estoqueAtualizado = estoque - quantidadeProduto;
-    precoAtualizado =  preco * estoqueAtualizado;
+float calcularValorTotal(struct Produto produto) {
+    return produto.preco * produto.quantidade;
+}
 
-    printf("Estoque atual: %d \n",estoqueAtualizado);
-    printf("Preço total em estoque: %.1f \n\n",precoAtualizado);
+
+void atualizarEstoque(struct Produto* produto, int quantidadeComprada) {
+    produto->quantidade -= quantidadeComprada;
 }
 
 int main() {
-    setlocale(LC_ALL,"portuguese");
-    int opcaoProduto, opcaoLoja, quantidadeProduto;
-    float produtoValor;
-    char produtoNome[200];
-
-    struct dados_produto produto;
-
-    printf("Deseja registrar um novo produto: 1 - Sim e 2 - Não:\n");
-    scanf("%d", &opcaoProduto);
-
-    system("cls||clear");
-
-    switch (opcaoProduto) {
-    case 1:
-	fflush(stdin);
-        printf("Registre o novo produto.\n");
-
-        printf("Digite o nome do novo produto: \n");
-        gets(produto.nome);
-
-        printf("Digite o preço do produto: ");
-        scanf("%f", &produto.preco);
-	fflush(stdin);
-
-        printf("Informe agora a quantidade em estoque: ");
-        scanf("%d", &produto.estoque);
-
-        printf("Registro finalizado!");
-
-        system("cls||clear");
-
-        break;
-
-    default:
-        break;
-    }
-
-    do {
-    printf("|--------Opções da loja-------|\n");
-    printf("|codigo | alternatinas        |\n");
-    printf("|1      | Realizar uma compra |\n");
-    printf("|2      | Consultar estoque   |\n");
-    printf("|3      | Sair do programa    |\n");
-    printf("|---------------Fim-----------|\n");
+    struct Produto produto;
     
-        printf("Informe a opção desejada: ");
-        scanf("%d", &opcaoLoja);
-
-        system("cls||clear");
-	fflush(stdin);
-
-        switch (opcaoLoja) {
-        case 1:
-            fflush(stdin);
-
-            printf("Nome do produto: \n");
-            gets(produtoNome);
-
-            printf("Digite o valor do produto: ");
-            scanf("%f", &produtoValor);
-
-            printf("Quantidade desejada do produto: ");
-            scanf("%d", &quantidadeProduto);
-
-            if (quantidadeProduto <= produto.estoque) {
-                printf("Compra realizada, agradecemos a preferência \n");
-            } else {
-                printf("Estoque insuficiente, por favor procure esse produto outro dia.\n");
-            }
-
-            break;
-
-        case 2:
-            printf("Produto em estoque.");
-            printf("\n");
-            printf("Nome do produto: %s \n", produto.nome);
-            atualizarEstoque(produto.estoque, produto.preco, quantidadeProduto);
-
-            break;
-
-        default:
-            break;
+    printf("Digite o nome do produto: ");
+    scanf("%s", produto.nome);
+    
+    printf("Digite o preço do produto: ");
+    scanf("%f", &produto.preco);
+    
+    printf("Digite a quantidade em estoque: ");
+    scanf("%d", &produto.quantidade);
+    
+    int opcao;
+    
+    do {
+        printf("\nMenu:\n");
+        printf("1 - Adicionar produto\n");
+        printf("2 - Realizar uma compra\n");
+        printf("3 - Consultar estoque\n");
+        printf("4 - Sair do programa\n");
+        
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao);
+        
+        switch (opcao) {
+            case 1:
+                printf("\nAdicionar produto selecionado.\n");
+                
+                
+                
+                break;
+                
+            case 2:
+                printf("\nRealizar uma compra selecionada.\n");
+                
+                int quantidadeComprada;
+                printf("Digite a quantidade a ser comprada: ");
+                scanf("%d", &quantidadeComprada);
+                
+                
+                atualizarEstoque(&produto, quantidadeComprada);
+                
+                break;
+                
+            case 3:
+                printf("\nConsultar estoque selecionado.\n");
+                
+                
+                float valorTotal = calcularValorTotal(produto);
+                
+                printf("Valor total em estoque: R$ %.2f\n", valorTotal);
+                
+                break;
+                
+            case 4:
+                printf("\nSair do programa selecionado.\n");
+                break;
+                
+            default:
+                printf("\nOpção inválida. Por favor, digite novamente.\n");
+                break;
         }
-
-    } while (opcao != 3);
-
+    } while (opcao != 4);
+    
     return 0;
 }
